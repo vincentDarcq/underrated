@@ -1,0 +1,12 @@
+<mat-card *ngFor="let service of services">
+    <mat-card-content>
+        <h3>{{ service.titre }}</h3>
+        <p>{{ service.paragraphe }}</p>
+    </mat-card-content>
+</mat-card>
+
+<div class="form">
+    <input type="text" [(ngModel)]="titre"/>
+    <input type="text" [(ngModel)]="paragraphe">
+    <button (click)="createService()">create service</button>
+</div>
