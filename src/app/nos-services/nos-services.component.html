@@ -1,12 +1,13 @@
-<mat-card *ngFor="let service of services">
-    <mat-card-content>
+<div class="cards">
+    <mat-card-content *ngFor="let service of services" class="card-body">
         <h3>{{ service.titre }}</h3>
+        <hr>
         <p>{{ service.paragraphe }}</p>
     </mat-card-content>
-</mat-card>
+</div>
 
 <div class="form">
     <input type="text" [(ngModel)]="titre"/>
-    <input type="text" [(ngModel)]="paragraphe">
+    <textarea name="" id="paragraphe" cols="5" rows="10" [(ngModel)]="paragraphe"></textarea>
     <button (click)="createService()">create service</button>
 </div>
