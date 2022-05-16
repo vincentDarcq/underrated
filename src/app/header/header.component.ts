@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  active: String = "home";
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  activeHeader(header: string){
+    this.active = header;
   }
 
 }

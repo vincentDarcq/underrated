@@ -1,3 +1,8 @@
+
+*{
+  background-color: black;
+}
+
 button {
   color: white;
   text-decoration: none;
@@ -5,7 +10,7 @@ button {
   border-bottom: solid black 2px;
 }
 
-button:hover {
+button:hover, .current{
   color: white;
   text-decoration: none;
   border-bottom: solid white 2px;
