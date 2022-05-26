@@ -1,0 +1,16 @@
+.block{
+    padding: 5% 15%;
+    background: linear-gradient(to bottom, #000000, #ffffff);
+    min-height: 100vh;
+    height: auto;
+}
+
+.artiste {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom:5%;
+}
+
+p{
+    color: white;
+}

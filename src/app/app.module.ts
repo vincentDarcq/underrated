@@ -15,6 +15,7 @@ import { ContactComponent } from './contact/contact.component';
 
 import { AngularMaterialModule } from './material/angular-material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     TypeTextComponent,
     NosServicesComponent,
-    ContactComponent
+    ContactComponent,
+    NosArtistesComponent
   ],
   imports: [
     BrowserModule,
