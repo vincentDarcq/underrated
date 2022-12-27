@@ -4,12 +4,12 @@ import { AdminFormsComponent } from './admins/admin-forms/admin-forms.component'
 import { SigninComponent } from './admins/signin/signin.component';
 import { AuthService as AuthGuard } from './shared/services/auth.service';
 import { HomeComponent } from './home/home.component';
-import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
+import { ArtisteComponent } from './artiste/artiste.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'sign', component: SigninComponent  },
-  { path: 'artiste/:artiste', component: NosArtistesComponent  },
+  { path: 'artiste/:artiste', component: ArtisteComponent  },
   { path: 'admin-f', component: AdminFormsComponent, canActivate: [AuthGuard]  },
   { path: '**', component: HomeComponent }
 ];
