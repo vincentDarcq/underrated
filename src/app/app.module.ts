@@ -9,13 +9,18 @@ import { HomeComponent } from './home/home.component';
 import { TypeTextComponent } from './animations/type-text/type-text.component';
 import { NosServicesComponent } from './nos-services/nos-services.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ContactComponent } from './contact/contact.component';
 
 import { AngularMaterialModule } from './material/angular-material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
+import { QuiSommesNousComponent } from './qui-sommes-nous/qui-sommes-nous.component';
+import { NewsComponent } from './news/news.component';
+import { AdminFormsComponent } from './admins/admin-forms/admin-forms.component';
+import { SigninComponent } from './admins/signin/signin.component';
+import { ArtisteComponent } from './artiste/artiste.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,12 @@ import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
     TypeTextComponent,
     NosServicesComponent,
     ContactComponent,
-    NosArtistesComponent
+    NosArtistesComponent,
+    QuiSommesNousComponent,
+    NewsComponent,
+    AdminFormsComponent,
+    SigninComponent,
+    ArtisteComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,8 @@ import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
     FormsModule,
     HttpClientModule,
     AngularMaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

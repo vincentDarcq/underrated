@@ -1,0 +1,23 @@
+.block {
+    padding: 5%;
+    background: black;
+    min-height: 100vh;
+    height: auto;
+    color: white;
+}
+
+h1 {
+    font-style: italic;
+    font-size: 6rem;
+}
+
+p{
+    color: white;
+    text-align: center;
+}
+
+.artiste {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 5%;
+}

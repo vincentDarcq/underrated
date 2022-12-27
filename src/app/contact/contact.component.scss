@@ -10,22 +10,6 @@
   margin-bottom: 3rem;
 }
 
-.contact {
-    padding: 10rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(to bottom, #000000, #bcc7cc) !important;
-}
-
-.contact-form {
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-left: auto;
-}
-
 .contact-form input {
     border: 0;
     background: linear-gradient(to right, rgb(125, 131, 134), #bfcbce);
@@ -53,4 +37,58 @@
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
   }
+
+.box {
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(to bottom, #000000, #bcc7cc) !important;
+  color: white;
+}
+
+.reseaux {
+  height: 60vh;
+  width: 50%;
+  padding: 15%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.contact{
+  padding: 10rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a{
+  border: 1px solid white;
+  padding: 30%;
+  margin: 10%;
+  border-radius: 10%;
+  background-color: transparent;
+  color: white;
+}
   
+.contact-form{
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: auto;
+}
+
+textarea {
+  border: 0;
+  background: linear-gradient(to right, #7d8386, #bfcbce);
+  padding: 1rem;
+  font-size: 1.3rem;
+  color: white;
+  outline: 0;
+  margin-bottom: 1rem;
+  border-radius: 35px;
+}
+
+#message {
+  width: 200%;
+}

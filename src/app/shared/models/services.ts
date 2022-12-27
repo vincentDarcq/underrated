@@ -1,7 +1,8 @@
 export class Service {
-    private titre: string;
-    private paragraphe: string;
-    private image: string;
+    _id: string;
+    titre: string;
+    paragraphe: string;
+    image: string;
 
     constructor(
         titre?: string, 
@@ -13,12 +14,24 @@ export class Service {
         this.image = image;
     }
 
+    public setId(id: string){
+        this._id = id;
+    }
+
     public setTitre(titre: string){
         this.titre = titre;
     }
 
+    public getTitre(){
+        return this.titre;
+    }
+
     public setParagraphe(paragraphe: string){
         this.paragraphe = paragraphe;
+    }
+
+    public getParagraphe(){
+        return this.paragraphe;
     }
 
     public setImage(image: string){

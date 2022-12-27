@@ -1,0 +1,15 @@
+.box {
+    display: flex;
+    flex-direction: column;
+    padding: 10% 40%;
+    background: linear-gradient(to bottom, #000000, #bcc7cc) !important;
+    height: 100vh;
+}
+
+input {
+    width: 200px;
+    padding: 1%;
+    margin: 1%;
+    border-radius: 10%;
+}
+

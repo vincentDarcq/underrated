@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Service } from '../models/services';
 
 @Injectable({
@@ -8,15 +8,40 @@ import { Service } from '../models/services';
 })
 export class NosServicesService {
 
+  services: BehaviorSubject<Array<Service>> = new BehaviorSubject(new Array<Service>());
+
   constructor(
     private http: HttpClient
-  ) { }
-
-  public createService(service: Service, image?: FormData): Observable<Service> {
-    return this.http.post<Service>('/api/service/createService', service);
+  ) { 
+    this.http.get<Array<Service>>('/api/service/get').subscribe( (services: Array<Service>) => {
+      this.services.next(services);
+    })
   }
 
-  public getServices(): Observable<Array<Service>> {
-    return this.http.get<Array<Service>>('/api/service/get');
+  public createService(service: Service, image?: FormData): void {
+    this.http.post<Service>('/api/service/createService', service).subscribe( (service: Service) => {
+      this.http.post<Service>(`/api/service/uploadImage`, image, {
+        params: {
+          id: service._id
+        }
+      }).subscribe( (service: Service) => {
+        const serv = this.services.value;
+        serv.push(service);
+        this.services.next(serv);
+      })
+    });
+  }
+
+  public deleteService(id: string) {
+    this.http.get<Service>(`/api/service/deleteService`, {
+      params: {
+        id: id
+      }
+    }).subscribe( (service: Service) => {
+      const serv = this.services.value;
+      const index = serv.findIndex(service => service._id === id);
+      serv.splice(index, 1);
+      this.services.next(serv);
+    })
   }
 }

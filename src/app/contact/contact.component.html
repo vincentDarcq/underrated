@@ -1,16 +1,29 @@
-<section class="contact bg-dark">
-    <form (ngSubmit)="sendMail()" class="contact-form">
-        <h2 class="title">Pour nous <strong>contacter</strong></h2>
-        <input type="text" placeholder="Nom" name="name" id="name" />
-        <input type="email" placeholder="Email" name="email" id="email" />
-        <input
-            type="text"
-            placeholder="Votre message ..."
-            name="message"
-            id="message"
-        />
-        <div>
-        <button>Soumettre</button>
-        </div>
-    </form>
-</section>
+<div class="box">
+    <section class="reseaux">
+        <a href="https://www.instagram.com/Nderrated/" target="_blank">
+            <i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://twitter.com/Nderrated" target="_blank">
+            <i class="fab fa-twitter fa-2x"></i></a>
+        <a href="https://www.facebook.com/Nderrated" target="_blank">
+            <i class="fab fa-facebook fa-2x"></i></a>
+    </section>    
+    <section class="contact">
+        <form [formGroup]="form" (ngSubmit)="sendMail()" class="contact-form">
+            <h2 class="title">Pour nous <strong>contacter</strong></h2>
+            <input type="text" placeholder="Nom" formControlName="nom" name="name" id="name" />
+            <input type="email" placeholder="Email *" formControlName="mail" name="email" id="email" />
+            <textarea
+                type="text"
+                placeholder="Votre message *"
+                formControlName="message"
+                name="message"
+                id="message"
+                rows="4"
+            ></textarea>
+            <div>
+                <div class="success" *ngIf="success">Message bien envoyé !</div>
+                <button [disabled]="!form.valid">Soumettre</button>
+            </div>
+        </form>
+    </section>
+</div>

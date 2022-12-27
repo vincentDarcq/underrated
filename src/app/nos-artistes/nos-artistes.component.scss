@@ -1,16 +1,31 @@
 .block{
-    padding: 5% 15%;
-    background: linear-gradient(to bottom, #000000, #ffffff);
+    padding: 5%;
+    background: black;
     min-height: 100vh;
     height: auto;
-}
-
-.artiste {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin-bottom:5%;
-}
-
-p{
     color: white;
+}
+
+h1{
+    font-style: italic;
+    font-size: 6rem;
+}
+
+.artistes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.artiste-nom{
+    padding: 20% 40%;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.photo {
+    border-radius: 20px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin: 5px;
 }

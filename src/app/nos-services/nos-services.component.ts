@@ -23,16 +23,14 @@ export class NosServicesComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
-    this.getAll = this.nosServicesService.getServices().subscribe( (services: Array<Service>) => {
+    this.getAll = this.nosServicesService.services.subscribe( (services: Array<Service>) => {
       this.services = services;
     })
   }
   
   public createService(){
     const service = new Service(this.titre, this.paragraphe);
-    this.creation = this.nosServicesService.createService(service).subscribe( (service: Service) => {
-      this.services.push(service);
-    })
+    this.nosServicesService.createService(service)
   }
 
   ngOnDestroy(): void {

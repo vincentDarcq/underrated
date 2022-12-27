@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { YoutubeService } from '../shared/services/youtube.service';
+import { Subscription } from 'rxjs';
+import { Artiste } from '../shared/models/artiste';
+import { NosArtistesService } from '../shared/services/nos-artistes.service';
 
 @Component({
   selector: 'app-nos-artistes',
@@ -9,21 +10,17 @@ import { YoutubeService } from '../shared/services/youtube.service';
 })
 export class NosArtistesComponent implements OnInit {
 
-  urls: Array<SafeResourceUrl> = new Array();
+  getAll: Subscription;
+  artistes: Array<Artiste>;
+  serverImg: String = "/upload?img=";
 
   constructor(
-    private youtubeService: YoutubeService,
-    public sanitizer: DomSanitizer
+    private nosArtistesServices: NosArtistesService
   ) { }
 
   ngOnInit(): void {
-    this.youtubeService.getVideos().subscribe( data => {
-      Object.keys(data.items).forEach(key => {
-        if(data.items[key].id.videoId){
-          const url = this.sanitizer.bypassSecurityTrustResourceUrl("//www.youtube.com/embed/"+data.items[key].id.videoId);
-          this.urls.push(url);
-        }
-    });
+    this.getAll = this.nosArtistesServices.artistes.subscribe( (artistes: Array<Artiste>) => {
+      this.artistes = artistes;
     })
   }
 

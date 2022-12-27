@@ -1,0 +1,17 @@
+<div class="block">
+    <h1>Nouveautés</h1>
+    <div class="videos" *ngFor="let video of videos; let i = index">
+        <div class="artiste" *ngIf="(i+1)%2 == 0">
+            <iframe width="420" height="215"
+            [src]="video.url">
+            </iframe>
+            <p>{{ video.description }}</p>
+        </div>
+        <div class="artiste" *ngIf="(i+1)%2 != 0">
+            <p>{{ video.description }}</p>
+            <iframe width="420" height="215"
+            [src]="video.url">
+            </iframe>
+        </div>
+    </div>
+</div>

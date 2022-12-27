@@ -1,13 +1,12 @@
-<div class="cards">
-    <mat-card-content *ngFor="let service of services" class="card-body">
-        <h3>{{ service.titre }}</h3>
-        <hr>
-        <p>{{ service.paragraphe }}</p>
-    </mat-card-content>
-</div>
-
-<div class="form">
-    <input type="text" [(ngModel)]="titre"/>
-    <textarea name="" id="paragraphe" cols="5" rows="10" [(ngModel)]="paragraphe"></textarea>
-    <button (click)="createService()">create service</button>
+<div class="box">
+    <h1>Nos Services</h1>
+    <div class="cards">
+        <mat-card-content *ngFor="let service of services" class="card-body">
+            <img [ngStyle]="service.image && {'height':'100px', 'width':'200px'}" *ngIf="service.image"
+                        [src]="serverImg+service.image" alt="service.titre">
+            <h3>{{ service.titre }}</h3>
+            <hr>
+            <p>{{ service.paragraphe }}</p>
+        </mat-card-content>
+    </div>
 </div>

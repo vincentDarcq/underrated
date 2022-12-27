@@ -1,16 +1,8 @@
 <div class="block">
-    <div class="videos" *ngFor="let url of urls; let i = index">
-        <div class="artiste" *ngIf="(i+1)%2 == 0">
-            <iframe width="420" height="215"
-            [src]="url">
-            </iframe>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate provident velit incidunt, totam doloremque vel ratione sint commodi asperiores numquam fugit animi, omnis, nulla dignissimos sed dolor ipsum reprehenderit id?</p>
-        </div>
-        <div class="artiste" *ngIf="(i+1)%2 != 0">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate provident velit incidunt, totam doloremque vel ratione sint commodi asperiores numquam fugit animi, omnis, nulla dignissimos sed dolor ipsum reprehenderit id?</p>
-            <iframe width="420" height="215"
-            [src]="url">
-            </iframe>
+    <h1>Nos artistes</h1>
+    <div class="artistes">
+        <div class="photo" *ngFor="let artiste of artistes" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
+            <a [routerLink]="['/artiste',  artiste.nom ]"><h2 class="artiste-nom">{{ artiste.nom }}</h2></a>
         </div>
     </div>
 </div>

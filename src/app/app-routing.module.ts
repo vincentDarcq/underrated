@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ContactComponent } from './contact/contact.component';
+import { AdminFormsComponent } from './admins/admin-forms/admin-forms.component';
+import { SigninComponent } from './admins/signin/signin.component';
+import { AuthService as AuthGuard } from './shared/services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { NosArtistesComponent } from './nos-artistes/nos-artistes.component';
-import { NosServicesComponent } from './nos-services/nos-services.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'artistes', component: NosArtistesComponent },
-  { path: 'services', component: NosServicesComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'sign', component: SigninComponent  },
+  { path: 'artiste/:artiste', component: NosArtistesComponent  },
+  { path: 'admin-f', component: AdminFormsComponent, canActivate: [AuthGuard]  },
   { path: '**', component: HomeComponent }
 ];
 

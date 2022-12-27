@@ -1,0 +1,131 @@
+<div class="box">
+    <div class="col-md-12 text-center">
+        <button class="logout-button" (click)="logout()">Deconnexion</button>
+    </div>
+    <h2>Gestion des services</h2>
+    <div class="services">
+        <div class="list-services">
+            <h4>=> Liste des Service</h4>
+            <div *ngFor="let service of services" class="service">
+                <p>{{ service.titre }}</p>
+                <p>{{ service.paragraphe }}</p>
+                <img [ngStyle]="service.image && {'height':'200px', 'width':'300px'}" *ngIf="service.image"
+                    [src]="serverImg+service.image" alt="service.titre">
+                <button class="delete" (click)="deleteService(service._id)">Supprimer</button>
+            </div>
+        </div>
+        <div class="new-service">
+            <h4>=> Ajouter un service</h4>
+            <input type="text" name="titre" placeholder="titre" [(ngModel)]="titre"/>
+            <textarea name="paragraphe"  placeholder="paragraphe" id="paragraphe" cols="5" rows="10" [(ngModel)]="paragraphe"></textarea>
+            <input type="file" (change)="onImageService($event)" name="image" id="image" />
+            <button (click)="createService()">ajouter</button>
+        </div>
+    </div>
+    <h2>Gestion des artistes de la rubrique nos artistes</h2>
+    <div class="artistes">
+        <div class="list-artistes">
+            <h4>=> Liste des artistes</h4>
+            <div *ngFor="let artiste of artistes" class="artiste">
+                <p>{{ artiste.nom }}</p>
+                <img [ngStyle]="artiste.photo && {'height':'200px', 'width':'300px'}" *ngIf="artiste.photo"
+                    [src]="serverImg+artiste.photo" alt="artiste.nom">
+                <button class="delete" (click)="deleteArtiste(artiste._id)">Supprimer</button>
+            </div>
+        </div>
+        <div class="new-artiste">
+            <h4>=> Ajouter un artiste</h4>
+            <div class="artiste-form">
+                <input type="text" name="nom" placeholder="nom" [(ngModel)]="newArtiste.nom"/>
+                <input type="file" (change)="onPhotoArtiste($event)" name="photo" id="photo" />
+                <button (click)="createArtiste()">ajouter</button>
+            </div>
+        </div>
+    </div>
+    <h2>Gestion des artistes de la rubrique nouveautés</h2>
+    <div class="new-nouveaute">
+        <div class="list-artistes">
+            <h4>=> Liste des artistes</h4>
+            <div *ngFor="let ytArt of youtubeArtistes" class="artiste">
+                <p>{{ ytArt.artiste }}</p>
+                <p>liste des videos youtube:</p>
+                <div *ngIf="ytArt.videos" class="video-list">
+                    <span *ngFor="let video of ytArt.videos">- {{ video.id }} <button (click)="pullVideo(ytArt.artiste, video.id)">Retirer cette vidéo</button></span>
+                </div>
+                <button class="delete" (click)="deleteYtArtiste(ytArt._id)">Supprimer</button>
+            </div>
+        </div>
+        <div class="new-artiste">
+            <h4>=> Ajouter un artiste</h4>
+            <div class="artiste-form">
+                <input type="text" name="nom" placeholder="nom" [(ngModel)]="youtubeArtiste"/>
+                <button (click)="createYoutubeArtiste()">ajouter</button>
+            </div>
+            <h4>=> Ajouter une video pour un artiste</h4>
+            <div class="artiste-form">
+                <select [(ngModel)]="youtubeArtiste">
+                    <option value="" disabled selected>selectionner l'artiste</option>
+                    <option *ngFor="let artiste of youtubeArtistes" [value]="artiste.artiste">{{ artiste.artiste }}</option>
+                </select>
+                <input type="text" name="nom" placeholder="id youtube" [(ngModel)]="videoId"/>
+                <textarea name="description"  placeholder="description" id="description" cols="5" rows="10" [(ngModel)]="videoDescription"></textarea>
+                <button (click)="pushVideo()">ajouter</button>
+            </div>
+        </div>
+    </div>
+    <h2>Gestion de la page des artistes</h2>
+    <select [(ngModel)]="artistePage" (change)="switchArtistePage()" class="block">
+        <option value="" disabled selected>selectionner l'artiste</option>
+        <option *ngFor="let page of pages" [value]="page.nom">{{ page.nom }}</option>
+    </select>
+    <textarea name="description" class="block" placeholder="description" id="description" cols="50" rows="10" [(ngModel)]="page.description"></textarea>
+    <div *ngIf="page.photo">
+        <img [ngStyle]="page.photo && {'height':'200px', 'width':'300px'}" *ngIf="page.photo"
+            [src]="serverImg+page.photo" alt="page.photo">
+    </div>
+    <input type="file" (change)="onPhotoArtistePage($event)" name="photoArtistePage" id="photoArtistePage" class="block"/>
+    <h3>=> Gestion des vidéos youtube affichées sur la page de l'artiste</h3>
+    <div class="videosPage">
+        <div>
+            <input type="text" name="videoId" placeholder="id video youtube" (keyup)="onVideoPageChanged()" [(ngModel)]="videoPage"/>
+            <p *ngIf="videoPageAlreadyAdd.length > 0" class="red">{{ videoPageAlreadyAdd }}</p>
+            <button (click)="addVideo()">ajouter l'id à la liste</button>
+        </div>
+        <div>
+            <p>(pour chaque ajout d'un id, il faudra cliquer sur le bouton modifier la page tout en bas pour que ce soit définitif)</p>
+            <p>Liste des ids : </p>
+            <p *ngFor="let id of page.videos; let i = index">- {{ id }} <button (click)="removeFromVideoPageList(i)"> Retirer</button></p>
+        </div>
+    </div>
+    <h3>=> Gestion des pochettes (album, single...) affichées sur la page de l'artiste</h3>
+    <div class="videosPage">
+        <div>
+            <input type="file" name="pochette" (change)="onPochettePage($event)" class="block"/>
+        </div>
+        <div>
+            <p>Liste des pochettes : </p>
+            <p *ngFor="let pochette of page.pochettes; let i = index" class="pochette">
+                <img [ngStyle]="{'height':'200px', 'width':'300px'}"
+            [src]="serverImg+pochette" alt="pochette">
+            <button (click)="removeFromPochetteList(i)"> Retirer</button></p>
+        </div>
+    </div>
+    <div>
+        <span>lien facebook : </span>
+        <input type="text" name="facebook" placeholder="lien facebook" [(ngModel)]="page.facebook"/>
+    </div>
+    <div>
+        <span>lien twitter : </span>
+        <input type="text" name="twitter" placeholder="lien twitter" [(ngModel)]="page.twitter"/>
+    </div>
+    <div>
+        <span>lien instagram : </span>
+        <input type="text" name="instagram" placeholder="lien instagram" [(ngModel)]="page.instagram"/>
+    </div>
+    <div>
+        <span>lien youtube : </span>
+        <input type="text" name="youtube" placeholder="lien youtube" [(ngModel)]="page.youtube"/>
+    </div>
+    <p class="success" *ngIf="pageSuccess">{{ pageSuccess }}</p>
+    <button (click)="modifierArtistePage()">modifier la page de l'artiste</button>
+</div>

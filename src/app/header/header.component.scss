@@ -8,11 +8,18 @@ button {
   text-decoration: none;
   padding: 0;
   border-bottom: solid black 2px;
+  cursor: url(/upload?img=real_diamond.ico), pointer;
 }
 
 button:hover, .current{
-  color: white;
+  color: black;
   text-decoration: none;
   border-bottom: solid white 2px;
-  background-color: rgb(247, 247, 84, 0.4);
+  background-color: yellow;
+}
+
+ul{
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
