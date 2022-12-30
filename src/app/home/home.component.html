@@ -1,4 +1,4 @@
-<div id="home" class="center justify-content-center">
+<div id="home" class="center justify-content-center" #component>
   <a href="#qui">
     <img src="../../assets/nderrated.png" />
   </a>
@@ -6,8 +6,8 @@
     <app-type-text></app-type-text>
   </div>
 </div>
-<app-news id="news"></app-news>
-<app-nos-artistes id="artistes"></app-nos-artistes>
-<app-nos-services id="services"></app-nos-services>
-<app-qui-sommes-nous id="qui"></app-qui-sommes-nous>
-<app-contact id="contact"></app-contact>
+<app-news id="news" (height)="setNewsHeight($event)"></app-news>
+<app-nos-artistes id="artistes" (height)="setArtistesHeight($event)"></app-nos-artistes>
+<app-nos-services id="services" (height)="setServicesHeight($event)"></app-nos-services>
+<app-qui-sommes-nous id="qui" (height)="setQuiHeight($event)"></app-qui-sommes-nous>
+<app-contact id="contact" (height)="setContactHeight($event)"></app-contact>

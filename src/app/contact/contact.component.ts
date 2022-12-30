@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, timer } from 'rxjs';
 import { ContactService } from '../shared/services/contact.service';
@@ -21,6 +21,11 @@ export class ContactComponent implements OnInit {
   success: boolean = false;
   time: Subscription;
 
+  @Output() height = new EventEmitter();
+
+  @ViewChild('component')
+  component: ElementRef;
+
   constructor(
     private contact: ContactService,
     private fb: FormBuilder
@@ -32,6 +37,10 @@ export class ContactComponent implements OnInit {
       mail: ['', Validators.required],
       message: ['', Validators.required]
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.height.emit(this.component.nativeElement.offsetHeight);
   }
 
   sendMail(){

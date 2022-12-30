@@ -1,4 +1,4 @@
-<div class="block">
+<div class="block" #component>
     <h1>Nos artistes</h1>
     <div class="artistes">
         <div class="photo" *ngFor="let artiste of artistes" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
