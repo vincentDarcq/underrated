@@ -3,7 +3,7 @@
     <div class="cards">
         <mat-card-content *ngFor="let service of services" class="card-body">
             <img [ngStyle]="service.image && {'height':'100px', 'width':'200px'}" *ngIf="service.image"
-                        [src]="serverImg+service.image" alt="service.titre">
+                        [src]="serverImg+service.image" alt="{{ service.titre }}">
             <h3>{{ service.titre }}</h3>
             <hr>
             <p>{{ service.paragraphe }}</p>

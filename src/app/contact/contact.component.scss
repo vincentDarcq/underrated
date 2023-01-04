@@ -1,6 +1,4 @@
-
 .bg-dark {
-    background: #333 !important;
     color: white;
 }
 
@@ -27,7 +25,7 @@
     padding: 1rem 2rem;
     border: 0;
     border-radius: 30px;
-    background: linear-gradient(to right, rgb(22, 23, 23), #707171);
+    background: black;
     color: white;
     font-weight: 700;
     font-size: 1.3rem;
@@ -41,7 +39,6 @@
 .box {
   display: flex;
   flex-direction: row;
-  background: linear-gradient(to bottom, #000000, #bcc7cc) !important;
   color: white;
 }
 

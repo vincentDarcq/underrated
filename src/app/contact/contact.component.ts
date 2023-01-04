@@ -46,6 +46,7 @@ export class ContactComponent implements OnInit {
   sendMail(){
     this.contactSub = this.contact.sendMail(this.form.value).subscribe( result => {
       if(result == "mail envoyé"){
+        console.log(result)
         this.success = true;
         this.time = this.timerPage();
       }

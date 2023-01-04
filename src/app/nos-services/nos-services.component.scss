@@ -1,6 +1,5 @@
 .box {
     padding: 5%;
-    background: black;
     color: white;
 }
 
@@ -28,9 +27,12 @@ h1 {
     grid-template-rows: repeat(2, 1fr);
 }
 
+::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
 .card-body {
     background: #b1b1b1;
-    overflow: scroll;
     margin: 0 0.5rem;
     padding-top: 10%;
     max-height: 90%;
@@ -38,8 +40,8 @@ h1 {
 
 p{
     margin: 0;
-    overflow-y: scroll;
-    height: 90%;
+    height: 80%;
+    overflow: auto;
 }
 
 hr {

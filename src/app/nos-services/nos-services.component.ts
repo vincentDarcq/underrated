@@ -15,6 +15,7 @@ export class NosServicesComponent implements OnInit, OnDestroy, AfterViewInit {
   creation: Subscription;
   getAll: Subscription;
   services: Array<Service>;
+  serverImg: String = "/upload?img=";
 
   @Output() height = new EventEmitter();
 

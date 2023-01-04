@@ -1,0 +1,60 @@
+.box {
+    background: #000000 !important;
+    color: white;
+}
+
+h2 {
+    margin-top: 2%;
+}
+
+.services, .artistes, .new-nouveaute {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1% 2%;
+}
+
+.new-service {
+    display: flex;
+    flex-direction: column;
+}
+
+.service {
+    border: 1px solid white;
+    margin: 1%;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+.artiste {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    padding: 2%;
+    margin: 2%;
+}
+
+.artiste-form {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3%;
+}
+
+button {
+    width: 150px;
+}
+
+input {
+    margin: 5px;
+    width: 300px;
+}
+
+.delete {
+    background-color: #a03636;
+    color: white;
+    margin: 1%;
+}
+
+.block {
+    display: block;
+}
