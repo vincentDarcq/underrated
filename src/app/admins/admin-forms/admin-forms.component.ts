@@ -119,7 +119,7 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
     }
   }
 
-  modifyImageService(event){
+  public modifyImageService(event){
     if (event.target.files[0]) {
       this.imageServiceModified.append('imageServiceModified', event.target.files[0], event.target.files[0].name);
     }

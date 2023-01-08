@@ -41,7 +41,8 @@ export class NosServicesService {
           }
         }).subscribe( (service: Service) => {
           const serv = this.services.value;
-          serv.push(service);
+          const index = serv.findIndex(s => s._id === service._id);
+          serv[index].image = service.image;
           this.services.next(serv);
         })
       }
