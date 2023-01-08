@@ -20,9 +20,9 @@ export class TypeTextComponent implements AfterViewInit {
     "On est jamais aussi redoutables que lorsqu'on est sous estimés."
   ];
   @Input() textColor = "white";
-  @Input() fontSize = "12px";
+  @Input() fontSize = "16px";
   @Input() blinkWidth = "2px";
-  @Input() typingSpeedMilliseconds = 100;
+  @Input() typingSpeedMilliseconds = 70;
   @Input() deleteSpeedMilliseconds = 300;
 
   private i = 0;

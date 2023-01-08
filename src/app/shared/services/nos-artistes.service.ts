@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Artiste } from '../models/artiste';
+import { ArtistePage } from '../models/artistePage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,30 +20,36 @@ export class NosArtistesService {
     })
   }
 
-  public createArtiste(artiste: Artiste, photo: FormData){
-    this.http.post<Artiste>(`/api/artiste/createArtiste`, artiste).subscribe( (art: Artiste) => {
-      this.http.post<Artiste>(`/api/artiste/uploadPhotoArtiste`, photo, {
-        params: {
-          id: art._id
-        }
-      }).subscribe( (a: Artiste) => {
-        const arts = this.artistes.value;
-        arts.push(a);
-        this.artistes.next(arts);
-      })
-    })
+  public createArtiste(artiste: Artiste, photo: FormData): Observable<{artiste: Artiste, artistePage: ArtistePage}>{
+    return this.http.post<{artiste: Artiste, artistePage: ArtistePage}>(`/api/artiste/createArtiste`, artiste).pipe( 
+      tap(
+        (rep: {artiste: Artiste, artistePage: ArtistePage}) => {
+          this.http.post<Artiste>(`/api/artiste/uploadPhotoArtiste`, photo, {
+            params: {
+              id: rep.artiste._id
+            }
+          })
+          .subscribe( 
+            (a: Artiste) => {
+              const arts = this.artistes.value;
+              arts.push(a);
+              this.artistes.next(arts);
+            })
+      }))
   }
 
-  public deleteArtiste(id: string) {
-    this.http.get<Artiste>(`/api/artiste/deleteOne`, {
+  public deleteArtiste(id: string): Observable<Artiste> {
+    return this.http.get<Artiste>(`/api/artiste/deleteOne`, {
       params: {
         id: id
       }
-    }).subscribe( (service: Artiste) => {
-      const arts = this.artistes.value;
-      const index = arts.indexOf(service);
-      arts.splice(index, 1);
-      this.artistes.next(arts);
-    })
+    }).pipe(
+      tap((artiste: Artiste) => {
+        const artistes = this.artistes.value;
+        const index = artistes.findIndex(a => a.nom === artiste.nom);
+        artistes.splice(index, 1);
+        this.artistes.next(artistes);
+      })
+    )
   }
 }

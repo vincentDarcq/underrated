@@ -14,14 +14,16 @@
                 <i class="fab fa-twitter fa-2x"></i></a>
             <a *ngIf="page.youtube" [href]="page.youtube" target="_blank">
                 <i class="fab fa-youtube fa-2x"></i></a>
+            <a *ngIf="page.tiktok" [href]="page.tiktok" target="_blank">
+                <i class="fab fa-tiktok fa-2x"></i></a>
         </div>
-    </div>
-    <h2>Sorties</h2>
-    <div class="pochettes" *ngFor="let pochette of page.pochettes">
-        <img [src]="serverImg+pochette" alt="pochette" class="pochette">
     </div>
     <h2>Vidéos</h2>
     <div class="videos">
         <iframe *ngFor="let video of page.videos" width="420" height="215" [src]="video"></iframe>
+    </div>
+    <h2>Sorties</h2>
+    <div class="pochettes" *ngFor="let pochette of page.pochettes">
+        <img [src]="serverImg+pochette" alt="pochette" class="pochette">
     </div>
 </div>

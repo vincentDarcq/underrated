@@ -29,7 +29,9 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
   getPages: Subscription;
   newArtiste: Artiste = new Artiste();
   photoArtiste: FormData = new FormData();
+  logoArtiste: FormData = new FormData();
   photoArtistePage: FormData = new FormData();
+  imageServiceModified: FormData = new FormData();
   pochette: FormData = new FormData();
   imageService: FormData = new FormData();
   youtubeArtiste: string = "";
@@ -65,7 +67,7 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
     this.getYTArtistes = this.youtubeService.getAllVideos().subscribe( (youtubeArtistes: Array<Youtube>) => {
       this.youtubeArtistes = youtubeArtistes;
     });
-    this.getPages = this.artistePageService.getAllPages().subscribe( (pages: Array<ArtistePage>) => {
+    this.getPages = this.artistePageService.artistesPages.subscribe( (pages: Array<ArtistePage>) => {
       this.pages = pages;
     });
   }
@@ -88,8 +90,21 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
     this.nosServicesService.deleteService(id);
   }
 
+  public modifyService(service: Service){
+    this.nosServicesService.modifyService(service, this.imageServiceModified)
+  }
+
   public deleteArtiste(id: string){
-    this.nosArtistesService.deleteArtiste(id);
+    this.nosArtistesService.deleteArtiste(id).subscribe(
+      (artiste: Artiste) => {
+        this.artistePageService.deleteArtistePage(artiste.nom).subscribe(
+          () => {
+            let pages = this.artistePageService.artistesPages.value;
+            const index = pages.findIndex(p => p.nom === artiste.nom)
+            pages.splice(index, 1);
+            this.artistePageService.artistesPages.next(pages);
+        })
+    });
   }
 
   public onPhotoArtiste(event){
@@ -103,11 +118,22 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
       this.imageService.append('image', event.target.files[0], event.target.files[0].name);
     }
   }
-  
 
+  modifyImageService(event){
+    if (event.target.files[0]) {
+      this.imageServiceModified.append('imageServiceModified', event.target.files[0], event.target.files[0].name);
+    }
+  }
+  
   public createArtiste(){
-    if(this.newArtiste.getNom() && this.photoArtiste){
-      this.nosArtistesService.createArtiste(this.newArtiste, this.photoArtiste);
+    if(this.newArtiste.nom && this.photoArtiste){
+      this.nosArtistesService.createArtiste(this.newArtiste, this.photoArtiste).subscribe(
+        (rep : {artiste: Artiste, artistePage: ArtistePage}) => {
+          const artistePage = new ArtistePage(rep.artistePage._id, rep.artistePage.nom);
+          let pages = this.artistePageService.artistesPages.value;
+          pages.push(artistePage)
+          this.artistePageService.artistesPages.next(pages);
+        });
     }
   }
 
@@ -150,10 +176,25 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
     })
   }
 
+  public logoArtistePage(event){
+    if (event.target.files[0]) {
+      this.logoArtiste.append('logo', event.target.files[0], event.target.files[0].name);
+    }
+  }
+
   public modifierArtistePage() {
     this.artistePageService.modifierPage(this.page).subscribe( (artistePage: ArtistePage) => {
-      if(this.pochette.get('photoPochette') === null && this.photoArtistePage.get('photo') === null){
+      if(this.pochette.get('photoPochette') === null && this.photoArtistePage.get('photo') === null && this.logoArtiste.get('logo') === null){
         this.addAPtoCurrentVar(artistePage, true);
+      }
+      if(this.logoArtiste.get('logo') !== null){
+        this.artistePageService.uploadLogo(artistePage.nom, this.logoArtiste).subscribe( (ap: ArtistePage) => {
+          if(this.pochette.get('photoPochette') !== null || this.photoArtistePage.get('photo') !== null){
+            this.addAPtoCurrentVar(ap, false);
+          }else {
+            this.addAPtoCurrentVar(ap, true);
+          }
+        })
       }
       if(this.photoArtistePage.get('photo') !== null){
         this.artistePageService.uploadPhoto(artistePage.nom, this.photoArtistePage).subscribe( (ap: ArtistePage) => {
@@ -203,6 +244,7 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
     }else {
       this.videoPageAlreadyAdd = "Cet id est déjà dans la liste";
     }
+    this.videoPage = "";
   }
 
   public removeFromVideoPageList(index: number){

@@ -1,5 +1,6 @@
 <div class="block" #component>
-    <h1>Nouveautés</h1>
+    <h1>News</h1>
+    <h3>Les dernières actualités de nos artistes et du label</h3>
     <div class="videos" *ngFor="let video of videos; let i = index">
         <div class="artiste" *ngIf="(i+1)%2 == 0">
             <iframe width="420" height="215"

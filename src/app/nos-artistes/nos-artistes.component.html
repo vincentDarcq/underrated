@@ -1,5 +1,5 @@
 <div class="block" #component>
-    <h1>Nos artistes</h1>
+    <h1>Artistes</h1>
     <div class="artistes">
         <div class="photo" *ngFor="let artiste of artistes" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
             <a [routerLink]="['/artiste',  artiste.nom ]"><h2 class="artiste-nom">{{ artiste.nom }}</h2></a>

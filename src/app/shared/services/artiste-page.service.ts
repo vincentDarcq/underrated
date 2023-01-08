@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ArtistePage } from '../models/artistePage';
 
 @Injectable({
@@ -8,10 +8,16 @@ import { ArtistePage } from '../models/artistePage';
 })
 export class ArtistePageService {
 
-  constructor(private http: HttpClient) { }
+  artistesPages: BehaviorSubject<Array<ArtistePage>> = new BehaviorSubject<Array<ArtistePage>>(null);
 
-  public getAllPages(): Observable<Array<ArtistePage>>{
-    return this.http.get<Array<ArtistePage>>(`/api/artistePage/findAll`);
+  constructor(private http: HttpClient) {
+    this.getAllPages()
+  }
+
+  public getAllPages(): void{
+    this.http.get<Array<ArtistePage>>(`/api/artistePage/findAll`).subscribe((artistePages: Array<ArtistePage>) => {
+      this.artistesPages.next(artistePages);
+    });
   }
 
   public getPage(artiste: string) : Observable<ArtistePage>{
@@ -40,5 +46,21 @@ export class ArtistePageService {
         artiste: artiste
       }
     });
+  }
+
+  public uploadLogo(artiste: string, logo: FormData): Observable<ArtistePage>{
+    return this.http.post<ArtistePage>(`/api/artistePage/uploadLogoArtiste`, logo, {
+      params: {
+        artiste: artiste
+      }
+    });
+  }
+
+  public deleteArtistePage(artisteName: string) {
+    return this.http.get<ArtistePage>(`/api/artistePage/deleteArtiste`, {
+      params: {
+        nom: artisteName
+      }
+    })
   }
 }

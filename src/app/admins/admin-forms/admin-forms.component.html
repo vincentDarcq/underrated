@@ -7,11 +7,16 @@
         <div class="list-services">
             <h4>=> Liste des Service</h4>
             <div *ngFor="let service of services" class="service">
-                <p>{{ service.titre }}</p>
-                <p>{{ service.paragraphe }}</p>
+                <input type="text" name="titre" placeholder="titre" [(ngModel)]="service.titre"/>
+                <textarea name="paragraphe" class="block" placeholder="paragraphe" id="paragraphe" cols="50" rows="10" [(ngModel)]="service.paragraphe"></textarea>
                 <img [ngStyle]="service.image && {'height':'200px', 'width':'300px'}" *ngIf="service.image"
                     [src]="serverImg+service.image" alt="service.titre">
-                <button class="delete" (click)="deleteService(service._id)">Supprimer</button>
+                <label for="photoService">Modifier l'image du service :</label>
+                <input type="file" (change)="modifyImageService($event)" name="photoService" id="photoService" class="block"/>
+                <div class="line">
+                    <button class="delete" (click)="deleteService(service._id)">Supprimer</button>
+                    <button class="modify" (click)="modifyService(service)">Modifier</button>
+                </div>
             </div>
         </div>
         <div class="new-service">
@@ -78,11 +83,14 @@
         <option value="" disabled selected>selectionner l'artiste</option>
         <option *ngFor="let page of pages" [value]="page.nom">{{ page.nom }}</option>
     </select>
+    <label for="logo">Séléction du logo à afficher sous la photo de l'artiste</label>
+    <input type="file" (change)="logoArtistePage($event)" name="logo" id="logo" />
     <textarea name="description" class="block" placeholder="description" id="description" cols="50" rows="10" [(ngModel)]="page.description"></textarea>
     <div *ngIf="page.photo">
         <img [ngStyle]="page.photo && {'height':'200px', 'width':'300px'}" *ngIf="page.photo"
             [src]="serverImg+page.photo" alt="page.photo">
     </div>
+    <label for="logo">Séléction de la photo à afficher sur la page de lartiste</label>
     <input type="file" (change)="onPhotoArtistePage($event)" name="photoArtistePage" id="photoArtistePage" class="block"/>
     <h3>=> Gestion des vidéos youtube affichées sur la page de l'artiste</h3>
     <div class="videosPage">
@@ -125,6 +133,10 @@
     <div>
         <span>lien youtube : </span>
         <input type="text" name="youtube" placeholder="lien youtube" [(ngModel)]="page.youtube"/>
+    </div>
+    <div>
+        <span>lien tiktok : </span>
+        <input type="text" name="youtube" placeholder="lien tiktok" [(ngModel)]="page.tiktok"/>
     </div>
     <p class="success" *ngIf="pageSuccess">{{ pageSuccess }}</p>
     <button (click)="modifierArtistePage()">modifier la page de l'artiste</button>

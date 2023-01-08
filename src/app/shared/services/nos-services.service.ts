@@ -32,6 +32,22 @@ export class NosServicesService {
     });
   }
 
+  public modifyService(service: Service, image?: FormData): void {
+    this.http.post<Service>('/api/service/modifyService', service).subscribe( (service: Service) => {
+      if(image.get("imageServiceModified") !== null){
+        this.http.post<Service>(`/api/service/modifyImage`, image, {
+          params: {
+            id: service._id
+          }
+        }).subscribe( (service: Service) => {
+          const serv = this.services.value;
+          serv.push(service);
+          this.services.next(serv);
+        })
+      }
+    });
+  }
+
   public deleteService(id: string) {
     this.http.get<Service>(`/api/service/deleteService`, {
       params: {

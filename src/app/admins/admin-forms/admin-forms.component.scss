@@ -55,6 +55,21 @@ input {
     margin: 1%;
 }
 
+.modify {
+    background-color: rgb(0, 141, 0);
+    color: white;
+    margin: 1%;
+}
+
 .block {
     display: block;
+}
+
+.success {
+    color: greenyellow;
+}
+
+.line{
+    display: flex;
+    flex-direction: row;
 }
