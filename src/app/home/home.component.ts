@@ -37,22 +37,18 @@ export class HomeComponent implements OnInit {
       {header: 'home', height: this.home.nativeElement.offsetHeight}, 
       {header: 'news', height: this.newsHeight}, 
       {header: 'artistes', height: this.artistesHeight}, 
-      {header: 'services', height: this.servicesHeight}, 
-      {header: 'qui', height: this.quiHeight}, 
+      {header: 'services', height: 900}, 
+      {header: 'qui', height: 900}, 
       {header: 'contact', height: this.contactHeight}
     ];
     const el = (event.target as Document).documentElement;
-    let currentHeight = 0;
+    let height = 0;
+    console.log("position : "+el.scrollTop);
+    console.log(componentsHeight)
     for(let i = 0; i < componentsHeight.length; i++){
-      currentHeight += componentsHeight[i].height;
-      if(el.scrollTop >= currentHeight){
-        this.headerService.setActiveHeader(componentsHeight[i+1]?.header);
-      }
-      if(el.scrollTop < componentsHeight[0].height){
-        this.headerService.setActiveHeader(componentsHeight[0].header);
-      }
-      if(el.scrollTop > totalHeight){
-        this.headerService.setActiveHeader(componentsHeight[componentsHeight.length-1].header);
+      height += componentsHeight[i].height;
+      if(el.scrollTop > height - componentsHeight[i]?.height && el.scrollTop < height){
+        this.headerService.setActiveHeader(componentsHeight[i].header);
       }
     }
   }
