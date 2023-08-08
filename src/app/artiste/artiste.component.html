@@ -18,12 +18,17 @@
                 <i class="fab fa-tiktok fa-2x"></i></a>
         </div>
     </div>
-    <h2>Vidéos</h2>
-    <div class="videos">
-        <iframe *ngFor="let video of page.videos" width="420" height="215" [src]="video"></iframe>
+
+    <div class="videos" *ngIf="page.videos.length > 0">
+        <h2>Vidéos</h2>
+        <div>
+            <iframe *ngFor="let video of page.videos" width="420" height="215" [src]="video"></iframe>
+        </div>
     </div>
-    <h2>Sorties</h2>
-    <div class="pochettes" *ngFor="let pochette of page.pochettes">
-        <img [src]="serverImg+pochette" alt="pochette" class="pochette">
+    <div class="sorties" *ngIf="page.pochettes.length > 0">
+        <h2>Sorties</h2>
+        <div class="pochettes" *ngFor="let pochette of page.pochettes">
+            <img [src]="serverImg+pochette" alt="pochette" class="pochette">
+        </div>
     </div>
 </div>
