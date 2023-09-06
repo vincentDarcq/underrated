@@ -1,21 +1,7 @@
-.block{
-    padding: 5%;
-    min-height: 100vh;
-    height: auto;
-    color: white;
-}
-
 h1{
     font-style: italic;
     font-size: 6rem;
 }
-
-.artistes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-}
-
 .artiste-nom{
     padding: 20% 40%;
     font-weight: 900;
@@ -27,8 +13,6 @@ a{
     text-decoration: none;
 }
 .photo {
-    border-radius: 20px;
     background-repeat: no-repeat;
     background-size: 100%;
-    margin: 5px;
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Artiste } from '../shared/models/artiste';
 import { NosArtistesService } from '../shared/services/nos-artistes.service';
@@ -8,7 +8,7 @@ import { NosArtistesService } from '../shared/services/nos-artistes.service';
   templateUrl: './nos-artistes.component.html',
   styleUrls: ['./nos-artistes.component.scss']
 })
-export class NosArtistesComponent implements OnInit, AfterViewInit {
+export class NosArtistesComponent implements OnInit {
 
   getAll: Subscription;
   artistes: Array<Artiste>;
@@ -45,10 +45,6 @@ export class NosArtistesComponent implements OnInit, AfterViewInit {
     this.getAll = this.nosArtistesServices.artistes.subscribe( (artistes: Array<Artiste>) => {
       this.artistes = artistes;
     })
-  }
-
-  ngAfterViewInit(): void {
-    this.height.emit(this.component.nativeElement.offsetHeight);
   }
 
 }

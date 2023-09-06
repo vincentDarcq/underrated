@@ -1,12 +1,7 @@
-<p-carousel [value]="artistes" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions">
+<p-carousel [value]="artistes" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions" autoPlayInterval="1000">
     <ng-template let-artiste pTemplate="item">
-        <div class="block" #component>
-            <!-- <h1>Artistes</h1> -->
-            <div class="artistes">
-                <div class="photo" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
-                    <a [routerLink]="['/artiste',  artiste.nom ]"><h2 class="artiste-nom">{{ artiste.nom }}</h2></a>
-                </div>
-            </div>
+        <div class="photo" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
+            <a [routerLink]="['/artiste',  artiste.nom ]"><h2 class="artiste-nom">{{ artiste.nom }}</h2></a>
         </div>
     </ng-template>
 </p-carousel>
