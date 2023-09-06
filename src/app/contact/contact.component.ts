@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ContactService } from '../shared/services/contact.service';
 import { InfosService } from '../shared/services/infos.service';
 
@@ -16,7 +16,7 @@ export class ContactComponent implements OnInit {
   phone: string;
   sujet: string;
   message: string;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output() height = new EventEmitter();
 
@@ -25,7 +25,7 @@ export class ContactComponent implements OnInit {
 
   constructor(
     private contact: ContactService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private infoServices: InfosService
   ) { }
 
