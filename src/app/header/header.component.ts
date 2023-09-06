@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HeaderService } from '../shared/services/header.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   activeHeaderSub: Subscription;
 
   constructor(
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +26,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   activeHeader(header: string){
     this.active = header;
+  }
+
+  redirect(page: string){
+    this.router.navigate([page]);
   }
 
   ngOnDestroy(): void {

@@ -10,7 +10,7 @@ import { TypeTextComponent } from './animations/type-text/type-text.component';
 import { NosServicesComponent } from './nos-services/nos-services.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from './contact/contact.component';
 
 import { AngularMaterialModule } from './material/angular-material.module';
@@ -21,6 +21,7 @@ import { NewsComponent } from './news/news.component';
 import { AdminFormsComponent } from './admins/admin-forms/admin-forms.component';
 import { SigninComponent } from './admins/signin/signin.component';
 import { ArtisteComponent } from './artiste/artiste.component';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ArtisteComponent } from './artiste/artiste.component';
     HttpClientModule,
     AngularMaterialModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

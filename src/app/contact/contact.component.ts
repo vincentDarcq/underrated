@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, timer } from 'rxjs';
 import { ContactService } from '../shared/services/contact.service';
+import { InfosService } from '../shared/services/infos.service';
 
 @Component({
   selector: 'app-contact',
@@ -16,10 +16,7 @@ export class ContactComponent implements OnInit {
   phone: string;
   sujet: string;
   message: string;
-  contactSub: Subscription;
   form: FormGroup;
-  success: boolean = false;
-  time: Subscription;
 
   @Output() height = new EventEmitter();
 
@@ -28,36 +25,24 @@ export class ContactComponent implements OnInit {
 
   constructor(
     private contact: ContactService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private infoServices: InfosService
   ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
       nom: [''],
-      objet: ['', Validators.required],
+      societe: [''],
       mail: ['', Validators.required],
       message: ['', Validators.required]
     });
   }
 
-  ngAfterViewInit(): void {
-    this.height.emit(this.component.nativeElement.offsetHeight);
-  }
-
-  sendMail(){
-    this.contactSub = this.contact.sendMail(this.form.value).subscribe( result => {
+  async sendMail(){
+    await this.contact.sendMail(this.form.value).then( result => {
       if(result == "mail envoyé"){
-        console.log(result)
-        this.success = true;
-        this.time = this.timerPage();
+        this.infoServices.popupInfo('Le message a bien été envoyé !');
       }
-    })
-  }
-
-  public timerPage(){
-    return timer(5000).subscribe(() => {
-      this.success = false;
-      this.time.unsubscribe();
     })
   }
 

@@ -13,6 +13,7 @@ export class NosArtistesComponent implements OnInit, AfterViewInit {
   getAll: Subscription;
   artistes: Array<Artiste>;
   serverImg: String = "/upload?img=";
+  responsiveOptions: any[] | undefined;
 
   @Output() height = new EventEmitter();
 
@@ -24,6 +25,23 @@ export class NosArtistesComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.responsiveOptions = [
+      {
+          breakpoint: '1199px',
+          numVisible: 1,
+          numScroll: 1
+      },
+      {
+          breakpoint: '991px',
+          numVisible: 2,
+          numScroll: 1
+      },
+      {
+          breakpoint: '767px',
+          numVisible: 1,
+          numScroll: 1
+      }
+  ];
     this.getAll = this.nosArtistesServices.artistes.subscribe( (artistes: Array<Artiste>) => {
       this.artistes = artistes;
     })

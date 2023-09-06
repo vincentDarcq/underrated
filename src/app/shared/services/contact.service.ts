@@ -12,7 +12,7 @@ export class ContactService {
     private http: HttpClient
   ) { }
 
-  public sendMail(contact: Contact): Observable<string>{
-    return this.http.post<string>(`/api/contact/sendMail`, contact)
+  public sendMail(contact: Contact): Promise<string>{
+    return this.http.post<string>(`/api/contact/sendMail`, contact).toPromise();
   }
 }

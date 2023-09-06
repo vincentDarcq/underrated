@@ -1,12 +1,7 @@
-<ul class="nav justify-content-center">
-  <li class="nav-item active">
-    <a class="nav-link" href="#home" (click)="activeHeader('home')"><button class="btn btn-link mb-2" [ngClass]="active === 'home' ? 'current' : ''">Home</button></a>
+<ul class="nav">
+  <li class="nav-item titre">
+    <h1 (click)="redirect('/')">Nderrated</h1>
   </li>
-  <li class="separator">|</li>
-  <li class="nav-item active">
-    <a class="nav-link" href="#news" (click)="activeHeader('news')"><button class="btn btn-link mb-2" [ngClass]="active === 'news' ? 'current' : ''">News</button></a>
-  </li>
-  <li class="separator">|</li>
   <li class="nav-item active">
     <a class="nav-link" href="#artistes" (click)="activeHeader('artistes')"><button class="btn btn-link mb-2" [ngClass]="active === 'artistes' ? 'current' : ''">Nos artistes</button></a>
   </li>
@@ -20,7 +15,7 @@
   </li>
   <li class="separator">|</li>
   <li class="nav-item active">
-    <a class="nav-link" href="#contact" (click)="activeHeader('contact')"><button class="btn btn-link mb-2" [ngClass]="active === 'contact' ? 'current' : ''">Contact</button></a>
+    <a class="nav-link" (click)="redirect('/contact')"><button class="btn btn-link mb-2" [ngClass]="active === 'contact' ? 'current' : ''">Contact</button></a>
   </li>
   <li class="nav-item active">
     <a class="nav-link" routerLink="admin-f"><i class="fa fa-lock"></i></a>

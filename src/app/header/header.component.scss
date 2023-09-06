@@ -1,6 +1,18 @@
-
 .nav{
   background-color: black !important;
+  height: 100px;
+  padding: 30px 0;
+  .titre{
+    margin-left: 5%;
+    margin-right: 15%;
+    cursor: pointer;
+    h1{
+      color: white;
+      margin-right: 30px;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+  }
+
 }
 
 button {
@@ -8,7 +20,7 @@ button {
   text-decoration: none;
   padding: 0;
   border-bottom: solid black 2px;
-  cursor: url(/upload?img=real_diamond.ico), pointer;
+  cursor: url(/upload?img=diamond_16.ico), pointer;
 }
 
 button:hover, .current{

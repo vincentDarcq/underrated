@@ -11,7 +11,7 @@
         <form [formGroup]="form" (ngSubmit)="sendMail()" class="contact-form">
             <h2 class="title">Pour nous <strong>contacter</strong></h2>
             <input type="text" placeholder="Nom" formControlName="nom" name="name" id="name" />
-            <input type="text" placeholder="Objet" formControlName="objet" name="objet" id="objet" />
+            <input type="text" placeholder="societe" formControlName="societe" name="societe" id="societe" />
             <input type="email" placeholder="Email *" formControlName="mail" name="email" id="email" />
             <textarea
                 type="text"
@@ -22,7 +22,6 @@
                 rows="4"
             ></textarea>
             <div>
-                <div class="success" *ngIf="success">Message bien envoyé !</div>
                 <button [disabled]="!form.valid">Soumettre</button>
             </div>
         </form>
