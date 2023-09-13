@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, pipe } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, pipe } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Artiste } from '../models/artiste';
 import { ArtistePage } from '../models/artistePage';
@@ -14,32 +14,40 @@ export class NosArtistesService {
 
   constructor(
     private http: HttpClient
-  ) { 
-    this.http.get<Array<Artiste>>('/api/artiste/findAll').subscribe( (artistes: Array<Artiste>) => {
-      this.artistes.next(artistes);
-    })
+  ) {
+    this.getArtistes();
   }
 
-  public createArtiste(artiste: Artiste, photo: FormData): Observable<{artiste: Artiste, artistePage: ArtistePage}>{
-    return this.http.post<{artiste: Artiste, artistePage: ArtistePage}>(`/api/artiste/createArtiste`, artiste).pipe( 
+  public getArtistes(): Promise<Array<Artiste>>{
+    const artistes = this.http.get<Array<Artiste>>('/api/artiste/findAll')
+    .pipe(
+      tap((artistes: Array<Artiste>) => {
+        this.artistes.next(artistes);
+      })
+    );
+    return lastValueFrom(artistes);
+  }
+
+  public createArtiste(artiste: Artiste, photo: FormData): Promise<{artiste: Artiste, artistePage: ArtistePage}>{
+    const createArtiste = this.http.post<{artiste: Artiste, artistePage: ArtistePage}>(`/api/artistePage/createArtiste`, artiste).pipe( 
       tap(
         (rep: {artiste: Artiste, artistePage: ArtistePage}) => {
-          this.http.post<Artiste>(`/api/artiste/uploadPhotoArtiste`, photo, {
+          const artistes = this.http.post<Artiste>(`/api/artistePage/addPhoto`, photo, {
             params: {
               id: rep.artiste._id
             }
           })
-          .subscribe( 
-            (a: Artiste) => {
-              const arts = this.artistes.value;
-              arts.push(a);
-              this.artistes.next(arts);
-            })
-      }))
+          lastValueFrom(artistes).then((a: Artiste) => {
+            const arts = this.artistes.value;
+            arts.push(a);
+            this.artistes.next(arts);
+          })
+      }));
+    return lastValueFrom(createArtiste);
   }
 
-  public deleteArtiste(id: string): Observable<Artiste> {
-    return this.http.get<Artiste>(`/api/artiste/deleteOne`, {
+  public deleteArtiste(id: string): Promise<Artiste> {
+    const deleteArtiste = this.http.get<Artiste>(`/api/artiste/deleteOne`, {
       params: {
         id: id
       }
@@ -51,5 +59,6 @@ export class NosArtistesService {
         this.artistes.next(artistes);
       })
     )
+    return lastValueFrom(deleteArtiste);
   }
 }

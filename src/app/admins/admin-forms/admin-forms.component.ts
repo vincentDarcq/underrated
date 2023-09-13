@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, timer } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Artiste } from 'src/app/shared/models/artiste';
 import { ArtistePage } from 'src/app/shared/models/artistePage';
+import { Projet } from 'src/app/shared/models/projet';
 import { Service } from 'src/app/shared/models/services';
 import { Youtube } from 'src/app/shared/models/youtube';
 import { ArtistePageService } from 'src/app/shared/services/artiste-page.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { InfosService } from 'src/app/shared/services/infos.service';
 import { NosArtistesService } from 'src/app/shared/services/nos-artistes.service';
 import { NosServicesService } from 'src/app/shared/services/nos-services.service';
 import { YoutubeService } from 'src/app/shared/services/youtube.service';
@@ -22,18 +24,9 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
   services: Array<Service>;
   artistes: Array<Artiste>;
   serverImg: String = "/upload?img=";
-  getServices: Subscription;
-  getArtistes: Subscription;
-  getYTArtistes: Subscription;
-  time: Subscription;
-  getPages: Subscription;
+  subscription: Subscription = new Subscription();
   newArtiste: Artiste = new Artiste();
-  photoArtiste: FormData = new FormData();
-  logoArtiste: FormData = new FormData();
-  photoArtistePage: FormData = new FormData();
-  imageServiceModified: FormData = new FormData();
-  pochette: FormData = new FormData();
-  imageService: FormData = new FormData();
+  image: FormData = new FormData();
   youtubeArtiste: string = "";
   youtubeArtistes: Array<Youtube> = new Array();
   videoId: string = "";
@@ -43,38 +36,40 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
   pages: Array<ArtistePage> = new Array();
   page: ArtistePage = new ArtistePage();
   videoPage: string = "";
-  videoPageAlreadyAdd: string = "";
-  pageSuccess: string;
+  newProjet: Projet = new Projet();
 
   constructor(
     private nosServicesService: NosServicesService,
     private nosArtistesService: NosArtistesService,
-    private youtubeService: YoutubeService,
     private authService: AuthService,
-    private artistePageService: ArtistePageService
+    private artistePageService: ArtistePageService,
+    private infoService: InfosService
   ) {
     this.services = new Array();
     this.artistes = new Array();
   }
 
   ngOnInit(): void {
-    this.getServices = this.nosServicesService.services.subscribe( (services: Array<Service>) => {
-      this.services = services;
-    });
-    this.getArtistes = this.nosArtistesService.artistes.subscribe( (artistes: Array<Artiste>) => {
-      this.artistes = artistes;
-    });
-    this.getYTArtistes = this.youtubeService.getAllVideos().subscribe( (youtubeArtistes: Array<Youtube>) => {
-      this.youtubeArtistes = youtubeArtistes;
-    });
-    this.getPages = this.artistePageService.artistesPages.subscribe( (pages: Array<ArtistePage>) => {
-      this.pages = pages;
-    });
+    this.nosArtistesService.getArtistes().then(
+      (artistes: Array<Artiste>) => {
+        this.artistes = artistes;
+      }
+    );
+    this.subscription.add(
+      this.nosServicesService.services.subscribe( (services: Array<Service>) => {
+        this.services = services;
+      })
+    )
+    this.subscription.add(
+      this.artistePageService.artistesPages.subscribe( (pages: Array<ArtistePage>) => {
+        this.pages = pages;
+      })
+    )
   }
 
   switchArtistePage(): void {
     if(this.artistePage.length > 0){
-      const index = this.pages.findIndex(page => page.nom === this.artistePage);
+      const index = this.pages.findIndex(page => page.artiste.nom === this.artistePage);
       this.page = this.pages[index];
     }
   }
@@ -82,7 +77,7 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
   public createService(){
     if(this.titre.length > 0 && this.paragraphe.length > 0){
       const service = new Service(this.titre, this.paragraphe);
-      this.nosServicesService.createService(service, this.imageService);
+      this.nosServicesService.createService(service, this.image);
     }
   }
 
@@ -91,196 +86,150 @@ export class AdminFormsComponent implements OnInit, OnDestroy {
   }
 
   public modifyService(service: Service){
-    this.nosServicesService.modifyService(service, this.imageServiceModified)
+    this.nosServicesService.modifyService(service).then((service: Service) => {
+      if(this.image.get("imageServiceModified") !== null){
+        this.nosServicesService.modifyImageService(service._id, this.image).then((service: Service) => {
+          this.image.delete("imageServiceModified");
+          this.infoService.popupInfo(`Le service ${service.titre} a bien été modifié`);
+        })
+      }
+    })
   }
 
   public deleteArtiste(id: string){
-    this.nosArtistesService.deleteArtiste(id).subscribe(
+    this.nosArtistesService.deleteArtiste(id).then(
       (artiste: Artiste) => {
         this.artistePageService.deleteArtistePage(artiste.nom).subscribe(
           () => {
             let pages = this.artistePageService.artistesPages.value;
-            const index = pages.findIndex(p => p.nom === artiste.nom)
+            const index = pages.findIndex(p => p.artiste.nom === artiste.nom)
             pages.splice(index, 1);
             this.artistePageService.artistesPages.next(pages);
         })
     });
   }
 
-  public onPhotoArtiste(event){
-    if (event.target.files[0]) {
-      this.photoArtiste.append('photo', event.target.files[0], event.target.files[0].name);
-    }
-  }
-
   public onImageService(event){
     if (event.target.files[0]) {
-      this.imageService.append('image', event.target.files[0], event.target.files[0].name);
+      this.image.append('image', event.target.files[0], event.target.files[0].name);
     }
   }
-
+  
   public modifyImageService(event){
     if (event.target.files[0]) {
-      this.imageServiceModified.append('imageServiceModified', event.target.files[0], event.target.files[0].name);
+      this.image.append('imageServiceModified', event.target.files[0], event.target.files[0].name);
     }
   }
   
   public createArtiste(){
-    if(this.newArtiste.nom && this.photoArtiste){
-      this.nosArtistesService.createArtiste(this.newArtiste, this.photoArtiste).subscribe(
+    if(this.newArtiste.nom && this.image){
+      this.nosArtistesService.createArtiste(this.newArtiste, this.image).then(
         (rep : {artiste: Artiste, artistePage: ArtistePage}) => {
-          const artistePage = new ArtistePage(rep.artistePage._id, rep.artistePage.nom);
+          const artistePage = new ArtistePage(rep.artistePage._id, rep.artistePage.artiste);
           let pages = this.artistePageService.artistesPages.value;
           pages.push(artistePage)
           this.artistePageService.artistesPages.next(pages);
         });
+      }
     }
-  }
+    
+    public onPhotoArtiste(event){
+      if (event.target.files[0]) {
+        this.image.append('photoArtiste', event.target.files[0], event.target.files[0].name);
+      }
+    }
 
-  public createYoutubeArtiste(){
-    if(this.youtubeArtiste.length > 0){
-      this.youtubeService.createYoutubeArtiste(this.youtubeArtiste).subscribe( result => {
-        if(result !== "cet artiste exite déjà"){
-          this.youtubeArtistes.push(result)
+    public onPhotoArtistePage(event){
+      if (event.target.files[0]) {
+        this.image.append('photoArtistePage', event.target.files[0], event.target.files[0].name);
+      }
+    }
+    
+    public imageProjet(event){
+      if (event.target.files[0]) {
+        this.image.append('imageProjet', event.target.files[0], event.target.files[0].name);
+      }
+    }
+
+    public deleteProjet(index: number){
+      this.page.projets.splice(index, 1);
+      this.modifierArtistePage();
+    }
+
+    public modifierProjet(index: number){
+      this.newProjet._id = this.page.projets[index]._id;
+      this.newProjet.image = this.page.projets[index].image;
+      this.newProjet.projetLink = this.page.projets[index].projetLink;
+      this.newProjet.projetName = this.page.projets[index].projetName;
+      this.newProjet.projetType = this.page.projets[index].projetType;
+    }
+    
+    public modifierArtistePage() {
+      if(!this.page.projets){
+        this.page.projets = new Array<Projet>();
+      }
+      if(this.image.get('imageProjet') !== null && !this.newProjet.projetName){
+        this.infoService.popupInfo("Attention, une image de projet a été séléctionnée mais le nom du projet n'est pas fourni");
+        return;
+      }
+      if(this.newProjet.projetName){
+        if(!this.newProjet._id){
+          this.page.projets.push(this.newProjet);
+        }else {
+          let index;
+          for(let i = 0; i < this.page.projets.length; i++){
+            if(this.page.projets[i]._id === this.newProjet._id){
+              index = i;
+            }
+          }
+          this.page.projets[index] = this.newProjet;
         }
-      })
-    }
-  }
-
-  public pushVideo(){
-    if(this.youtubeArtiste.length > 0 && this.videoId.length > 0 && this.videoDescription.length > 0){
-      this.youtubeService.pushVideo(this.youtubeArtiste, this.videoId, this.videoDescription).subscribe( (youtubeArt: Array<Youtube>) => {
-        this.youtubeArtistes.forEach(yt => {
-          if(yt.artiste === this.youtubeArtiste){
-            yt.videos = youtubeArt[0].videos;
+      }
+      this.artistePageService.modifierPage(this.page).then(
+        (artistePage: ArtistePage) => {
+          if(this.image.get('photoArtistePage') === null && this.image.get('imageProjet') === null){
+            this.addAPtoCurrentVar(artistePage);
           }
-        })
-      })
-    }
-  }
-
-  public pullVideo(artiste: string, id: string){
-    this.youtubeService.pullVideo(artiste, id).subscribe( (youtubeArt: Array<Youtube>) => {
-      this.youtubeArtistes.forEach(yt => {
-        if(yt.artiste === artiste){
-          yt.videos = youtubeArt[0].videos;
+          if(this.image.get('photoArtistePage') !== null){
+            this.artistePageService.uploadPhoto(artistePage.artiste.nom, this.image).subscribe( (ap: ArtistePage) => {
+              this.addAPtoCurrentVar(ap);
+            })
+          }
+          if(this.image.get('imageProjet') !== null){
+            this.artistePageService.uploadImageProjet(
+              this.page.artiste.nom,
+              this.newProjet.projetName, 
+              this.image
+            ).then( 
+              (ap: ArtistePage) => {
+                this.addAPtoCurrentVar(ap);
+              }
+            )
+          }
+        },
+        err => {
+          this.infoService.popupInfo(`Une erreur s'est produite: ${err.error}`)
         }
-      })
-    })
-  }
-
-  public deleteYtArtiste(id: string){
-    this.youtubeService.deleteYtArtiste(id).subscribe( (youtubeArt: Youtube) => {
-      const index = this.youtubeArtistes.findIndex(yt => yt.artiste === youtubeArt.artiste);
-      this.youtubeArtistes.splice(index, 1);
-    })
-  }
-
-  public logoArtistePage(event){
-    if (event.target.files[0]) {
-      this.logoArtiste.append('logo', event.target.files[0], event.target.files[0].name);
+      )
     }
-  }
 
-  public modifierArtistePage() {
-    this.artistePageService.modifierPage(this.page).subscribe( (artistePage: ArtistePage) => {
-      if(this.pochette.get('photoPochette') === null && this.photoArtistePage.get('photo') === null && this.logoArtiste.get('logo') === null){
-        this.addAPtoCurrentVar(artistePage, true);
-      }
-      if(this.logoArtiste.get('logo') !== null){
-        this.artistePageService.uploadLogo(artistePage.nom, this.logoArtiste).subscribe( (ap: ArtistePage) => {
-          if(this.pochette.get('photoPochette') !== null || this.photoArtistePage.get('photo') !== null){
-            this.addAPtoCurrentVar(ap, false);
-          }else {
-            this.addAPtoCurrentVar(ap, true);
-          }
-        })
-      }
-      if(this.photoArtistePage.get('photo') !== null){
-        this.artistePageService.uploadPhoto(artistePage.nom, this.photoArtistePage).subscribe( (ap: ArtistePage) => {
-          if(this.pochette.get('photoPochette') !== null){
-            this.addAPtoCurrentVar(ap, false);
-          }else {
-            this.addAPtoCurrentVar(ap, true);
-          }
-        })
-      }
-      if(this.pochette.get('photoPochette') !== null){
-        this.artistePageService.uploadPochette(artistePage.nom, this.pochette).subscribe( (ap: ArtistePage) => {
-          this.addAPtoCurrentVar(ap, true);
-        })
-      }
-    })
-  }
-
-  private addAPtoCurrentVar(ap: ArtistePage, display: boolean){
-    const index = this.pages.findIndex(page => page.nom === ap.nom);
+  private addAPtoCurrentVar(ap: ArtistePage){
+    const index = this.pages.findIndex(page => page.artiste.nom === ap.artiste.nom);
     this.pages[index] = ap;
     this.page = ap;
-    if(display){
-      this.pageSuccess = "page modifiée avec succès";
-      this.time = this.timerPage();
-    }
+    this.newProjet = new Projet();
+    this.image.delete('imageProjet');
+    this.image.delete('photoArtistePage');
+    this.infoService.popupInfo(`La page de ${ap.artiste.nom} a été modifiée avec succès !`);
   }
 
-  public onPhotoArtistePage(event){
-    if (event.target.files[0]) {
-      this.photoArtistePage.append('photo', event.target.files[0], event.target.files[0].name);
-    }
-  }
-
-  public addVideo(){
-    if(this.videoPage.length === 0){
-      this.videoPageAlreadyAdd = "L'id est vide";
-      return;
-    }
-    if(!this.page.videos){
-      this.page.videos = new Array();
-    }
-    const index = this.page.videos.findIndex(video => video === this.videoPage);
-    if(index === -1){
-      this.page.videos.push(this.videoPage);
-      this.videoPageAlreadyAdd = "";
-    }else {
-      this.videoPageAlreadyAdd = "Cet id est déjà dans la liste";
-    }
-    this.videoPage = "";
-  }
-
-  public removeFromVideoPageList(index: number){
-    this.page.videos.splice(index, 1);
-  }
-
-  public onVideoPageChanged(){
-    this.videoPageAlreadyAdd = "";
-  }
-
-  public removeFromPochetteList(index: number){
-    this.page.pochettes.splice(index, 1);
-  }
-
-  public onPochettePage(event){
-    if (event.target.files[0]) {
-      this.pochette.append('photoPochette', event.target.files[0], event.target.files[0].name);
-    }
-  }
 
   public logout(){
     this.authService.signout();
   }
 
-  public timerPage(){
-    return timer(3000).subscribe(() => {
-      this.pageSuccess = "";
-      this.time.unsubscribe();
-    })
-  }
-
   ngOnDestroy(): void {
-    if(this.getServices){ this.getServices.unsubscribe(); }
-    if(this.getArtistes){ this.getArtistes.unsubscribe(); }
-    if(this.getYTArtistes){ this.getYTArtistes.unsubscribe(); }
-    if(this.getPages){ this.getPages.unsubscribe(); }
+    this.subscription?.unsubscribe();
   }
 
 }

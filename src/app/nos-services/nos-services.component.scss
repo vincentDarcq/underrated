@@ -1,52 +1,42 @@
-.box {
-    padding: 5%;
-    color: white;
+img {
+    height: 500px;
+    width: 90% !important;
+    margin: auto;
 }
 
-h1 {
-    font-style: italic;
-    font-size: 6rem;
-}
-.form{
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    width: 100%;
-    padding-left: 10%;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 20px;
-}
-
-::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+.infos{
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    h3{
+      text-align: center;
+    }
+    p{
+      white-space: pre-wrap;
+      text-align: center;
+      font-weight: 600;
+      font-size: 15px;
+      width: 90%;
+      padding-bottom: 50px;
+    }
 }
 
-.card-body {
-    white-space: pre-wrap;
-    background: #b1b1b1;
-    margin: 0 0.5rem;
-    height: 400px;
-}
 
-p{
-    margin: 0;
-    height: 80%;
-    overflow: auto;
-}
+::ng-deep .owl-prev, ::ng-deep .owl-next {
+    position:absolute;
+    top: 30%;
+    background-color:transparent !important;
+    color: white !important;
+  }
+  
+  ::ng-deep .owl-prev {
+    left: 0;
+  }
+  
+  ::ng-deep .owl-next {
+    right: 0;
+  }
 
-hr {
-    margin: 0;
-}
-
-textarea, input {
-    background-color: white;
-    width: 200px;
-}
-button {
-    background-color: white;
-    width: 100px;
-}
+  .services {
+    margin-top: 200px;
+  }

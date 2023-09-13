@@ -1,12 +1,15 @@
-<div class="box" #component>
-    <h1>Nos Services</h1>
-    <div class="cards">
-        <mat-card-content *ngFor="let service of services" class="card-body">
-            <img [ngStyle]="service.image && {'height':'100px', 'width':'200px'}" *ngIf="service.image"
-                        [src]="serverImg+service.image" alt="{{ service.titre }}">
-            <h3>{{ service.titre }}</h3>
-            <hr>
-            <p>{{ service.paragraphe }}</p>
-        </mat-card-content>
-    </div>
+<div class="services">
+    <owl-carousel-o [options]="customOptions" *ngIf="services.length > 0">
+        <ng-container *ngFor="let item of services" >
+            <ng-template carouselSlide>
+                <div class="slide">
+                    <div class="infos">
+                        <h3 *ngIf="item.titre">{{ item.titre }}</h3>
+                        <p *ngIf="item.paragraphe">{{ item.paragraphe }}</p>
+                    </div>
+                    <img *ngIf="item.image" [src]="serverImg + item.image" [alt]="item.image">
+                </div>
+            </ng-template>
+        </ng-container>
+    </owl-carousel-o>
 </div>

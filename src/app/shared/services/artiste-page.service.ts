@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { ArtistePage } from '../models/artistePage';
 
 @Injectable({
@@ -28,8 +28,9 @@ export class ArtistePageService {
     });
   }
 
-  public modifierPage(artistePage: ArtistePage) : Observable<ArtistePage>{
-    return this.http.post<ArtistePage>(`/api/artistePage/modifierArtistePage`, artistePage);
+  public modifierPage(artistePage: ArtistePage) : Promise<ArtistePage>{
+    const modif = this.http.post<ArtistePage>(`/api/artistePage/modifierArtistePage`, artistePage);
+    return lastValueFrom(modif);
   }
 
   public uploadPhoto(artiste: string, photo: FormData) : Observable<ArtistePage>{
@@ -40,20 +41,14 @@ export class ArtistePageService {
     });
   }
 
-  public uploadPochette(artiste: string, pochette: FormData) : Observable<ArtistePage>{
-    return this.http.post<ArtistePage>(`/api/artistePage/uploadPhotoAlbum`, pochette, {
+  public uploadImageProjet(artiste: string, projetName: string, image: FormData) : Promise<ArtistePage>{
+    const imageProjet = this.http.post<ArtistePage>(`/api/artistePage/addImageProjet`, image, {
       params: {
-        artiste: artiste
+        artiste: artiste,
+        projetName: projetName
       }
     });
-  }
-
-  public uploadLogo(artiste: string, logo: FormData): Observable<ArtistePage>{
-    return this.http.post<ArtistePage>(`/api/artistePage/uploadLogoArtiste`, logo, {
-      params: {
-        artiste: artiste
-      }
-    });
+    return lastValueFrom(imageProjet);
   }
 
   public deleteArtistePage(artisteName: string) {

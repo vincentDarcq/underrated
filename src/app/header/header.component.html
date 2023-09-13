@@ -3,7 +3,16 @@
     <h1 (click)="redirect('/')">Nderrated</h1>
   </li>
   <li class="nav-item active">
-    <a class="nav-link" href="#artistes" (click)="activeHeader('artistes')"><button class="btn btn-link mb-2" [ngClass]="active === 'artistes' ? 'current' : ''">Nos artistes</button></a>
+    <div class="dropdown">
+      <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Nos artistes
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li *ngFor="let artiste of artistes">
+          <a class="dropdown-item"  [routerLink]="['/artiste', artiste.nom]">{{ artiste.nom }}</a>
+        </li>
+      </ul>
+    </div>
   </li>
   <li class="separator">|</li>
   <li class="nav-item active">
@@ -16,8 +25,5 @@
   <li class="separator">|</li>
   <li class="nav-item active">
     <a class="nav-link" (click)="redirect('/contact')"><button class="btn btn-link mb-2" [ngClass]="active === 'contact' ? 'current' : ''">Contact</button></a>
-  </li>
-  <li class="nav-item active">
-    <a class="nav-link" routerLink="admin-f"><i class="fa fa-lock"></i></a>
   </li>
 </ul>

@@ -1,7 +1,10 @@
+import { Artiste } from "./artiste";
+import { Projet } from "./projet";
+
 export class ArtistePage {
     _id: string;
-    nom: string;
-    logo: string;
+    artiste: Artiste;
+    projets: Array<Projet>;
     facebook: string;
     twitter: string;
     instagram: string;
@@ -9,12 +12,11 @@ export class ArtistePage {
     tiktok: string;
     description: string;
     videos: Array<string>;
-    pochettes: Array<string>;
     photo: string;
 
     constructor(
         id?: string,
-        nom?: string, 
+        artiste?: Artiste,
         facebook?: string,
         twitter?: string,
         instagram?: string,
@@ -23,22 +25,13 @@ export class ArtistePage {
         description?: string,
     ){
         this._id = id;
-        this.nom = nom;
+        this.artiste = artiste;
         this.facebook = facebook;
         this.twitter = twitter;
         this.instagram = instagram;
         this.youtube = youtube;
         this.tiktok = tiktok;
         this.description = description;
-        this.pochettes = new Array();
         this.videos = new Array();
-    }
-
-    public pushPochette(pochette: string) {
-        this.pochettes.push(pochette);
-    }
-
-    public pushVideo(video: string) {
-        this.videos.push(video);
     }
 }

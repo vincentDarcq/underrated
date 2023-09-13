@@ -1,18 +1,24 @@
-h1{
-    font-style: italic;
-    font-size: 6rem;
-}
-.artiste-nom{
-    padding: 20% 40%;
-    font-weight: 900;
-    font-style: italic;
-    color: white;
+img {
+    height: 300px;
 }
 
-a{
-    text-decoration: none;
+h3{
+    position: absolute;
+    color: white;
+    left: 40%;
+    top: 5%;
 }
-.photo {
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
+
+::ng-deep .owl-prev, ::ng-deep .owl-next {
+    position:absolute;
+    top: 30%;
+    background-color:transparent !important;
+  }
+  
+  ::ng-deep .owl-prev {
+    left: 0;
+  }
+  
+  ::ng-deep .owl-next {
+    right: 0;
+  }

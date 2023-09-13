@@ -1,10 +1,6 @@
-<div class="component">
-    <img class="photo" *ngIf="page.photo" [src]="serverImg+page.photo" alt="page.photo">
-    <div class="name">
-        <h3>{{ page.nom }}</h3>
-    </div>
-    <div class="description">
-        <p class="description_text">{{ page.description }}</p>
+<div class="component" *ngIf="page">
+    <div class="infos">
+        <h1>{{ artiste }}</h1>
         <div class="reseaux">
             <a *ngIf="page.instagram" [href]="page.instagram" target="_blank">
                 <i class="fab fa-instagram fa-2x"></i></a>
@@ -18,17 +14,19 @@
                 <i class="fab fa-tiktok fa-2x"></i></a>
         </div>
     </div>
-
-    <div class="videos" *ngIf="page.videos.length > 0">
-        <h2>Vidéos</h2>
-        <div>
-            <iframe *ngFor="let video of page.videos" width="420" height="215" [src]="video"></iframe>
+    <img class="photo_principale" *ngIf="page.photo" [src]="serverImg + page.artiste.photo" alt="page.photo">
+    <div class="projets" *ngFor="let projet of page.projets; let i = index">
+        <div class="projet">
+            <img class="photo" *ngIf="projet.image" [src]="serverImg + projet.image" alt="image projet">
+            <div>
+                <div class="details">
+                    <h2>{{ artiste }}</h2>
+                    <h2 class="projetName">{{ projet.projetName }}</h2>
+                    <h3>{{ projet.projetType }}</h3>
+                </div>
+                <button (click)="listen(projet.projetLink)">ÉCOUTER | TÉLÉCHARGER</button>
+            </div>
         </div>
-    </div>
-    <div class="sorties" *ngIf="page.pochettes.length > 0">
-        <h2>Sorties</h2>
-        <div class="pochettes" *ngFor="let pochette of page.pochettes">
-            <img [src]="serverImg+pochette" alt="pochette" class="pochette">
-        </div>
+        <hr *ngIf="i+1 < page.projets.length">
     </div>
 </div>

@@ -21,7 +21,7 @@ import { NewsComponent } from './news/news.component';
 import { AdminFormsComponent } from './admins/admin-forms/admin-forms.component';
 import { SigninComponent } from './admins/signin/signin.component';
 import { ArtisteComponent } from './artiste/artiste.component';
-import { CarouselModule } from 'primeng/carousel';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { CarouselModule } from 'primeng/carousel';
     NewsComponent,
     AdminFormsComponent,
     SigninComponent,
-    ArtisteComponent
+    ArtisteComponent,
   ],
   imports: [
     BrowserModule,

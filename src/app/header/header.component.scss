@@ -44,3 +44,13 @@ ul{
 .fa-lock {
   color: black;
 }
+
+.dropdown-toggle {
+  color: white;
+  cursor: url(/upload?img=diamond_16.ico), pointer;
+}
+
+.dropdown-item, .dropdown-menu {
+  background-color: black;
+  color: white;
+}

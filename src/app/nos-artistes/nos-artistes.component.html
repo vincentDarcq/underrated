@@ -1,7 +1,10 @@
-<p-carousel [value]="artistes" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions" autoPlayInterval="1000">
-    <ng-template let-artiste pTemplate="item">
-        <div class="photo" [ngStyle]="{'background-image': 'url(' + serverImg+artiste.photo + ')'}">
-            <a [routerLink]="['/artiste',  artiste.nom ]"><h2 class="artiste-nom">{{ artiste.nom }}</h2></a>
-        </div>
-    </ng-template>
-</p-carousel>
+<owl-carousel-o [options]="customOptions" *ngIf="artistes.length > 0">
+    <ng-container *ngFor="let artiste of artistes" >
+        <ng-template carouselSlide>
+            <div class="slide">
+                <h3 *ngIf="artiste.nom">{{ artiste.nom }}</h3>
+                <img *ngIf="artiste.photo" [src]="serverImg + artiste.photo" [alt]="artiste.photo">
+            </div>
+        </ng-template>
+    </ng-container>
+</owl-carousel-o>

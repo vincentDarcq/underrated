@@ -1,6 +1,7 @@
 .box {
     background: #000000 !important;
     color: white;
+    text-align: center;
 }
 
 h2 {
@@ -63,6 +64,7 @@ input {
 
 .block {
     display: block;
+    margin: auto;
 }
 
 .success {
@@ -72,4 +74,47 @@ input {
 .line{
     display: flex;
     flex-direction: row;
+}
+
+.logoArtiste {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.add_projet {
+    display: flex;
+    flex-direction: column;
+}
+
+.projets, .gestion_artiste {
+    margin: 15px;
+    padding: 10px;
+    border: solid 1px white;
+}
+
+
+input, button {
+    margin: 1% auto;
+}
+
+.projets, .imageProjet, .gestion_artiste {
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    height: 200px; 
+    width: 300px;
+    margin: auto;
+}
+
+.container_projet{
+    display: flex;
+    flex-direction: row;
+    margin-left: 15%;
+}
+
+.actions_projet {
+    margin-top: 100px;
 }

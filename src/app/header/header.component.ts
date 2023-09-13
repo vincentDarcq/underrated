@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HeaderService } from '../shared/services/header.service';
 import { Router } from '@angular/router';
+import { NosArtistesService } from '../shared/services/nos-artistes.service';
+import { Artiste } from '../shared/models/artiste';
 
 @Component({
   selector: 'app-header',
@@ -11,17 +13,26 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   active: String;
-  activeHeaderSub: Subscription;
+  subscription: Subscription = new Subscription();
+  artistes: Array<Artiste>;
 
   constructor(
     private headerService: HeaderService,
-    private router: Router
+    private router: Router,
+    private nosArtistesService: NosArtistesService
   ) { }
 
   ngOnInit(): void {
-    this.activeHeaderSub = this.headerService.activeHeader.subscribe((header: string) => {
-      this.active = header;
-    })
+    this.subscription.add(
+      this.headerService.activeHeader.subscribe((header: string) => {
+        this.active = header;
+      })
+    )
+    this.subscription.add(
+      this.nosArtistesService.artistes.subscribe((artistes: Array<Artiste>) => {
+        this.artistes = artistes
+      })
+    )
   }
 
   activeHeader(header: string){

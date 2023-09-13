@@ -2,24 +2,23 @@
     color: white;
 }
 
-.photo {
-    width: 600px;
-    display: block;
-    margin: auto;
-    margin-top: 3%;
+.photo_principale {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 50px;
 }
 
-h3 {
-    width: -moz-fit-content;
-    width: fit-content;
-    font-style: italic;
-    font-size: 6rem;
-    background-color: gray;
-    text-align: center;
-    border-radius: 10px;
-    padding: 1%;
-    margin-left: 40%;
-    margin-top: 5%;
+.photo {
+    width: 300px;
+    height: 200px;
+    margin-right: 50px;
+}
+
+h1 {
+    color: white;
+    font-size: 60px;
+    font-weight: 500;
+    margin-bottom: 20px;
 }
 
 .description {
@@ -35,9 +34,64 @@ h3 {
 
 .reseaux {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    a {
+        margin-right: 15px;
+        padding: 7px;
+        background-color: white;
+        border-radius: 48%;
+        i{
+            color: black;
+        }
+    }
+
+    a:hover {
+        scale: 1.1;
+    }
 }
 
-i {
+.infos {
+    position: absolute;
     color: white;
+    top: 40%;
+    left: 40%;
+}
+
+.projets, .projet {
+    width: fit-content;
+    margin: auto;
+}
+
+.projet {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
+.projetName {
+    font-weight: 900;
+    font-size: 40px;
+}
+
+button {
+    background-color: #1f1f1f;
+    padding: 15px;
+    color: white;
+    border: none;
+    font-weight: 900;
+}
+
+button:hover {
+    background-color: #3b3a3a;
+    opacity: .8;
+}
+
+hr {
+    border-bottom: 0;
+    border-top: 2px solid white;
+    opacity: 1.0;
+}
+
+.details {
+    margin-left: 30px;
 }
